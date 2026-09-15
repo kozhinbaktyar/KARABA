@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تۆمارکردنی زانیاری - مۆبایل</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f0f2f5; padding: 12px; color: #1c1e21; }
+        
+        .container { 
+            max-width: 500px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 16px; 
+            border-radius: 12px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08); 
+        }
+        
+        h2 { text-align: center; margin-bottom: 16px; color: #1a73e8; font-size: 20px; }
+        
+        .sheet-selector { 
+            margin-bottom: 16px; 
+            background: #e8f0fe; 
+            padding: 10px; 
+            border-radius: 8px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 6px; 
+        }
+        .sheet-selector label { font-size: 13px; font-weight: bold; color: #1a73e8; }
+        .sheet-selector input { padding: 10px; border: 1px solid #1a73e8; border-radius: 6px; font-size: 15px; font-weight: bold; text-align: center; }
+
+        .form-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+        
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 14px; margin-bottom: 4px; font-weight: bold; color: #4b5563; }
+        .input-group input[type="text"] { 
+            padding: 10px; 
+            border: 1px solid #d1d5db; 
+            border-radius: 6px; 
+            font-size: 15px; 
+            outline: none;
+        }
+        .input-group input[type="text"]:focus { border-color: #1a73e8; }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9fafb;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        .checkbox-group label { font-size: 15px; font-weight: bold; cursor: pointer; }
+        .checkbox-group input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: #1a73e8;
+            cursor: pointer;
+        }
+
+        .btn { 
+            padding: 14px; 
+            background-color: #1a73e8; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            width: 100%; 
+            font-size: 16px; 
+        }
+        .btn:disabled { background-color: #9ca3af; }
+        
+        .status { text-align: center; margin-top: 12px; font-weight: bold; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>تۆمارکردنی زانیاری محاویلە</h2>
+
+    <div class="sheet-selector">
+        <label>ناوی شیت (Sheet Name):</label>
+        <input type="text" id="sheetName" value="F1" placeholder="ناوی شیت" oninput="syncZF(this.value)">
+    </div>
+
+    <form id="dataForm" onsubmit="sendToGoogleSheet(event)">
+        <div class="form-grid">
+            <!-- ژ.F (خانەی M - خۆکارانە یەکسانە بە ناوی شیتەکە) -->
+            <div class="input-group">
+                <label>ژ.F</label>
+                <input type="text" id="zf" value="F1">
+            </div>
+            
+            <!-- ژ.محاویلە (خانەی L) -->
+            <div class="input-group"><label>ژ.محاویلە</label><input type="text" id="zMahawila"></div>
+            
+            <!-- K.V (خانەی K) -->
+            <div class="input-group"><label>K.V</label><input type="text" id="kv"></div>
+            
+            <!-- سیریاڵ نە مبەر (خانەی J) -->
+            <div class="input-group"><label>S.N / سیریاڵ نە مبەر</label><input type="text" id="serial"></div>
+            
+            <!-- وڵات (خانەی I) -->
+            <div class="input-group"><label>وڵات</label><input type="text" id="wlat"></div>
+            
+            <!-- براند (خانەی H) -->
+            <div class="input-group"><label>براند</label><input type="text" id="brand"></div>
+            
+            <!-- شوێنی محاویلە (خانەی G) -->
+            <div class="input-group"><label>شوێنی محاویلە</label><input type="text" id="shweniMahawila"></div>
+            
+            <!-- OUT DOOR (خانەی F) -->
+            <div class="checkbox-group">
+                <label for="outdoor">OUT DOOR</label>
+                <input type="checkbox" id="outdoor">
+            </div>
+            
+            <!-- IN DOOR (خانەی E) -->
+            <div class="checkbox-group">
+                <label for="indoor">IN DOOR</label>
+                <input type="checkbox" id="indoor">
+            </div>
+            
+            <!-- ساڵ (خانەی D) -->
+            <div class="input-group"><label>ساڵ</label><input type="text" id="sal"></div>
+            
+            <!-- حکومی (خانەی C) -->
+            <div class="checkbox-group">
+                <label for="hukumi">حکومی</label>
+                <input type="checkbox" id="hukumi">
+            </div>
+            
+            <!-- تایبەت (خانەی B) -->
+            <div class="checkbox-group">
+                <label for="taybet">تایبەت</label>
+                <input type="checkbox" id="taybet">
+            </div>
+            
+            <!-- تێبینی (خانەی A) -->
+            <div class="input-group"><label>تێبینی</label><input type="text" id="tebini"></div>
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">ناردن بۆ گووگڵ شیت</button>
+    </form>
+
+    <div class="status" id="statusMessage"></div>
+</div>
+
+<script>
+    // لینکی نوێی Apps Script کە ناردت
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzCpOz6nSTaBMx-AZsjiUcBKnn-Tu5ZZ_EJMjTrXK8IRC4NFU5BotSHRQ4Uus6fsdAT/exec";
+
+    function syncZF(val) {
+        document.getElementById('zf').value = val;
+    }
+
+    function sendToGoogleSheet(e) {
+        e.preventDefault();
+
+        const btn = document.getElementById('submitBtn');
+        const status = document.getElementById('statusMessage');
+
+        btn.disabled = true;
+        status.innerText = "لە حاڵەتی ناردندایە...";
+        status.style.color = "#d97706";
+
+        const payload = {
+            sheetName: document.getElementById('sheetName').value || "Sheet1",
+            tebini: document.getElementById('tebini').value,
+            taybet: document.getElementById('taybet').checked,
+            hukumi: document.getElementById('hukumi').checked,
+            sal: document.getElementById('sal').value,
+            indoor: document.getElementById('indoor').checked,
+            outdoor: document.getElementById('outdoor').checked,
+            shweniMahawila: document.getElementById('shweniMahawila').value,
+            brand: document.getElementById('brand').value,
+            wlat: document.getElementById('wlat').value,
+            serial: document.getElementById('serial').value,
+            kv: document.getElementById('kv').value,
+            zMahawila: document.getElementById('zMahawila').value,
+            zf: document.getElementById('zf').value
+        };
+
+        fetch(WEB_APP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            status.innerText = "✓ بە سەرکەوتوویی تۆمارکرا!";
+            status.style.color = "#059669";
+            
+            // خاوێنکردنەوە بەبێ سڕینەوەی ناوی شیت و ژ.F
+            document.getElementById('zMahawila').value = '';
+            document.getElementById('kv').value = '';
+            document.getElementById('serial').value = '';
+            document.getElementById('wlat').value = '';
+            document.getElementById('brand').value = '';
+            document.getElementById('shweniMahawila').value = '';
+            document.getElementById('outdoor').checked = false;
+            document.getElementById('indoor').checked = false;
+            document.getElementById('sal').value = '';
+            document.getElementById('hukumi').checked = false;
+            document.getElementById('taybet').checked = false;
+            document.getElementById('tebini').value = '';
+
+            btn.disabled = false;
+        })
+        .catch(error => {
+            status.innerText = "❌ کێشەیەک ڕوویدا: " + error;
+            status.style.color = "#dc2626";
+            btn.disabled = false;
+        });
+    }
+</script>
+
+</body>
+</html>
