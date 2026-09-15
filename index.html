@@ -90,10 +90,10 @@
 
     <form id="dataForm" onsubmit="sendToGoogleSheet(event)">
         <div class="form-grid">
-            <!-- ژ.F (کیبۆردی ژمارە - inputmode numeric) -->
+            <!-- ژ.F -->
             <div class="input-group">
                 <label>ژ.F</label>
-                <input type="number" inputmode="numeric" id="zf" value="1">
+                <input type="text" id="zf" value="F1">
             </div>
             
             <!-- ژ.محاویلە (کیبۆردی ژمارە) -->
@@ -102,16 +102,16 @@
                 <input type="number" inputmode="numeric" id="zMahawila">
             </div>
             
-            <!-- K.V (کیبۆردی ژمارە - دەتوانیت ژمارەی فاریزەییش بنووسیت) -->
+            <!-- K.V (کیبۆردی ژمارە) -->
             <div class="input-group">
                 <label>K.V</label>
                 <input type="number" inputmode="decimal" step="any" id="kv">
             </div>
             
-            <!-- S.N / سیریاڵ نە مبەر (کیبۆردی ژمارە) -->
+            <!-- S.N / سیریاڵ نە مبەر (پیت و ژمارە - Text) -->
             <div class="input-group">
                 <label>S.N / سیریاڵ نە مبەر</label>
-                <input type="number" inputmode="numeric" id="serial">
+                <input type="text" id="serial" placeholder="پیت و ژمارە بنووسە">
             </div>
             
             <!-- وڵات (دەق) -->
@@ -167,11 +167,7 @@
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzCpOz6nSTaBMx-AZsjiUcBKnn-Tu5ZZ_EJMjTrXK8IRC4NFU5BotSHRQ4Uus6fsdAT/exec";
 
     function syncZF(val) {
-        // ئەگەر ناوی شیتەکە تەنها ژمارە بێت، لێرەدا ڕێکی دەخات
-        const numericVal = val.replace(/\D/g, '');
-        if(numericVal) {
-            document.getElementById('zf').value = numericVal;
-        }
+        document.getElementById('zf').value = val;
     }
 
     function sendToGoogleSheet(e) {
@@ -213,7 +209,7 @@
             status.innerText = "✓ بە سەرکەوتوویی تۆمارکرا!";
             status.style.color = "#059669";
             
-            // خاوێنکردنەوە بەبێ سڕینەوەی ناوی شیت و ژ.F
+            // خاوێنکردنەوەی خانەکان
             document.getElementById('zMahawila').value = '';
             document.getElementById('kv').value = '';
             document.getElementById('serial').value = '';
