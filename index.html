@@ -35,14 +35,15 @@
         
         .input-group { display: flex; flex-direction: column; }
         .input-group label { font-size: 14px; margin-bottom: 4px; font-weight: bold; color: #4b5563; }
-        .input-group input[type="text"] { 
+        .input-group input[type="text"],
+        .input-group input[type="number"] { 
             padding: 10px; 
             border: 1px solid #d1d5db; 
             border-radius: 6px; 
             font-size: 15px; 
             outline: none;
         }
-        .input-group input[type="text"]:focus { border-color: #1a73e8; }
+        .input-group input:focus { border-color: #1a73e8; }
 
         .checkbox-group {
             display: flex;
@@ -89,58 +90,70 @@
 
     <form id="dataForm" onsubmit="sendToGoogleSheet(event)">
         <div class="form-grid">
-            <!-- ژ.F (خانەی M - خۆکارانە یەکسانە بە ناوی شیتەکە) -->
+            <!-- ژ.F (کیبۆردی ژمارە - inputmode numeric) -->
             <div class="input-group">
                 <label>ژ.F</label>
-                <input type="text" id="zf" value="F1">
+                <input type="number" inputmode="numeric" id="zf" value="1">
             </div>
             
-            <!-- ژ.محاویلە (خانەی L) -->
-            <div class="input-group"><label>ژ.محاویلە</label><input type="text" id="zMahawila"></div>
+            <!-- ژ.محاویلە (کیبۆردی ژمارە) -->
+            <div class="input-group">
+                <label>ژ.محاویلە</label>
+                <input type="number" inputmode="numeric" id="zMahawila">
+            </div>
             
-            <!-- K.V (خانەی K) -->
-            <div class="input-group"><label>K.V</label><input type="text" id="kv"></div>
+            <!-- K.V (کیبۆردی ژمارە - دەتوانیت ژمارەی فاریزەییش بنووسیت) -->
+            <div class="input-group">
+                <label>K.V</label>
+                <input type="number" inputmode="decimal" step="any" id="kv">
+            </div>
             
-            <!-- سیریاڵ نە مبەر (خانەی J) -->
-            <div class="input-group"><label>S.N / سیریاڵ نە مبەر</label><input type="text" id="serial"></div>
+            <!-- S.N / سیریاڵ نە مبەر (کیبۆردی ژمارە) -->
+            <div class="input-group">
+                <label>S.N / سیریاڵ نە مبەر</label>
+                <input type="number" inputmode="numeric" id="serial">
+            </div>
             
-            <!-- وڵات (خانەی I) -->
+            <!-- وڵات (دەق) -->
             <div class="input-group"><label>وڵات</label><input type="text" id="wlat"></div>
             
-            <!-- براند (خانەی H) -->
+            <!-- براند (دەق) -->
             <div class="input-group"><label>براند</label><input type="text" id="brand"></div>
             
-            <!-- شوێنی محاویلە (خانەی G) -->
+            <!-- شوێنی محاویلە (دەق) -->
             <div class="input-group"><label>شوێنی محاویلە</label><input type="text" id="shweniMahawila"></div>
             
-            <!-- OUT DOOR (خانەی F) -->
+            <!-- OUT DOOR -->
             <div class="checkbox-group">
                 <label for="outdoor">OUT DOOR</label>
                 <input type="checkbox" id="outdoor">
             </div>
             
-            <!-- IN DOOR (خانەی E) -->
+            <!-- IN DOOR -->
             <div class="checkbox-group">
                 <label for="indoor">IN DOOR</label>
                 <input type="checkbox" id="indoor">
             </div>
             
-            <!-- ساڵ (خانەی D) -->
-            <div class="input-group"><label>ساڵ</label><input type="text" id="sal"></div>
+            <!-- ساڵ (کیبۆردی ژمارە) -->
+            <div class="input-group">
+                <label>ساڵ</label>
+                <input type="number" inputmode="numeric" id="sal">
+            </div>
             
-            <!-- حکومی (خانەی C) -->
+            <!-- حکومی -->
             <div class="checkbox-group">
                 <label for="hukumi">حکومی</label>
                 <input type="checkbox" id="hukumi">
             </div>
             
-            <!-- تایبەت (خانەی B) -->
+            <!-- تایبەت -->
             <div class="checkbox-group">
                 <label for="taybet">تایبەت</label>
                 <input type="checkbox" id="taybet">
             </div>
             
-            <!-- تێبینی (خانەی A) -->
+            <!-- تێبینی -->
             <div class="input-group"><label>تێبینی</label><input type="text" id="tebini"></div>
         </div>
 
@@ -151,11 +164,14 @@
 </div>
 
 <script>
-    // لینکی نوێی Apps Script کە ناردت
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzCpOz6nSTaBMx-AZsjiUcBKnn-Tu5ZZ_EJMjTrXK8IRC4NFU5BotSHRQ4Uus6fsdAT/exec";
 
     function syncZF(val) {
-        document.getElementById('zf').value = val;
+        // ئەگەر ناوی شیتەکە تەنها ژمارە بێت، لێرەدا ڕێکی دەخات
+        const numericVal = val.replace(/\D/g, '');
+        if(numericVal) {
+            document.getElementById('zf').value = numericVal;
+        }
     }
 
     function sendToGoogleSheet(e) {
