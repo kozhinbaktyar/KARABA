@@ -96,31 +96,31 @@
                 <input type="text" id="zf" value="F1">
             </div>
             
-            <!-- ژ.محاویلە (کیبۆردی ژمارە) -->
+            <!-- ژ.محاویلە (خۆکارانە زیاد دەکات) -->
             <div class="input-group">
                 <label>ژ.محاویلە</label>
                 <input type="number" inputmode="numeric" id="zMahawila">
             </div>
             
-            <!-- K.V (کیبۆردی ژمارە) -->
+            <!-- K.V -->
             <div class="input-group">
                 <label>K.V</label>
                 <input type="number" inputmode="decimal" step="any" id="kv">
             </div>
             
-            <!-- S.N / سیریاڵ نە مبەر (پیت و ژمارە - Text) -->
+            <!-- S.N / سیریاڵ نە مبەر (کیبۆردی ژمارە پیشان دەدات + ڕێگە بە پیت دەدات) -->
             <div class="input-group">
                 <label>S.N / سیریاڵ نە مبەر</label>
-                <input type="text" id="serial" placeholder="پیت و ژمارە بنووسە">
+                <input type="text" inputmode="numeric" id="serial" placeholder="ژمارە یان پیت بنووسە">
             </div>
             
-            <!-- وڵات (دەق) -->
+            <!-- وڵات -->
             <div class="input-group"><label>وڵات</label><input type="text" id="wlat"></div>
             
-            <!-- براند (دەق) -->
+            <!-- براند -->
             <div class="input-group"><label>براند</label><input type="text" id="brand"></div>
             
-            <!-- شوێنی محاویلە (دەق) -->
+            <!-- شوێنی محاویلە -->
             <div class="input-group"><label>شوێنی محاویلە</label><input type="text" id="shweniMahawila"></div>
             
             <!-- OUT DOOR -->
@@ -135,7 +135,7 @@
                 <input type="checkbox" id="indoor">
             </div>
             
-            <!-- ساڵ (کیبۆردی ژمارە) -->
+            <!-- ساڵ -->
             <div class="input-group">
                 <label>ساڵ</label>
                 <input type="number" inputmode="numeric" id="sal">
@@ -180,6 +180,8 @@
         status.innerText = "لە حاڵەتی ناردندایە...";
         status.style.color = "#d97706";
 
+        const currentZMahawila = document.getElementById('zMahawila').value;
+
         const payload = {
             sheetName: document.getElementById('sheetName').value || "Sheet1",
             tebini: document.getElementById('tebini').value,
@@ -193,7 +195,7 @@
             wlat: document.getElementById('wlat').value,
             serial: document.getElementById('serial').value,
             kv: document.getElementById('kv').value,
-            zMahawila: document.getElementById('zMahawila').value,
+            zMahawila: currentZMahawila,
             zf: document.getElementById('zf').value
         };
 
@@ -209,8 +211,14 @@
             status.innerText = "✓ بە سەرکەوتوویی تۆمارکرا!";
             status.style.color = "#059669";
             
-            // خاوێنکردنەوەی خانەکان
-            document.getElementById('zMahawila').value = '';
+            // خودکارکردنی زیلادبوونی ژمارەی محاویلە (ئەگەر ژمارە درابێت، ١ی دەچێتەسەر)
+            if (currentZMahawila !== "" && !isNaN(currentZMahawila)) {
+                document.getElementById('zMahawila').value = parseInt(currentZMahawila, 10) + 1;
+            } else {
+                document.getElementById('zMahawila').value = '';
+            }
+
+            // خاوێنکردنەوەی خانەکانی تر
             document.getElementById('kv').value = '';
             document.getElementById('serial').value = '';
             document.getElementById('wlat').value = '';
