@@ -35,8 +35,7 @@
         
         .input-group { display: flex; flex-direction: column; }
         .input-group label { font-size: 14px; margin-bottom: 4px; font-weight: bold; color: #4b5563; }
-        .input-group input[type="text"],
-        .input-group input[type="number"] { 
+        .input-group input[type="text"] { 
             padding: 10px; 
             border: 1px solid #d1d5db; 
             border-radius: 6px; 
@@ -96,32 +95,41 @@
                 <input type="text" id="zf" value="F1">
             </div>
             
-            <!-- ژ.محاویلە (خۆکارانە زیاد دەکات) -->
+            <!-- ژ.محاویلە -->
             <div class="input-group">
                 <label>ژ.محاویلە</label>
-                <input type="number" inputmode="numeric" id="zMahawila">
+                <input type="text" inputmode="numeric" id="zMahawila" placeholder="ژمارە یان نوسین بنووسە">
             </div>
             
             <!-- K.V -->
             <div class="input-group">
                 <label>K.V</label>
-                <input type="number" inputmode="decimal" step="any" id="kv">
+                <input type="text" inputmode="decimal" id="kv" placeholder="نموونە: 11kV یان 400">
             </div>
             
-            <!-- S.N / سیریاڵ نە مبەر (کیبۆردی ژمارە پیشان دەدات + ڕێگە بە پیت دەدات) -->
+            <!-- S.N / سیریاڵ نە مبەر -->
             <div class="input-group">
                 <label>S.N / سیریاڵ نە مبەر</label>
-                <input type="text" inputmode="numeric" id="serial" placeholder="ژمارە یان پیت بنووسە">
+                <input type="text" inputmode="text" id="serial" placeholder="ژمارە یان پیت بنووسە">
             </div>
             
             <!-- وڵات -->
-            <div class="input-group"><label>وڵات</label><input type="text" id="wlat"></div>
+            <div class="input-group">
+                <label>وڵات</label>
+                <input type="text" id="wlat">
+            </div>
             
             <!-- براند -->
-            <div class="input-group"><label>براند</label><input type="text" id="brand"></div>
+            <div class="input-group">
+                <label>براند</label>
+                <input type="text" id="brand">
+            </div>
             
             <!-- شوێنی محاویلە -->
-            <div class="input-group"><label>شوێنی محاویلە</label><input type="text" id="shweniMahawila"></div>
+            <div class="input-group">
+                <label>شوێنی محاویلە</label>
+                <input type="text" id="shweniMahawila">
+            </div>
             
             <!-- OUT DOOR -->
             <div class="checkbox-group">
@@ -138,7 +146,7 @@
             <!-- ساڵ -->
             <div class="input-group">
                 <label>ساڵ</label>
-                <input type="number" inputmode="numeric" id="sal">
+                <input type="text" inputmode="numeric" id="sal" placeholder="ساڵ بنووسە">
             </div>
             
             <!-- حکومی -->
@@ -154,7 +162,10 @@
             </div>
             
             <!-- تێبینی -->
-            <div class="input-group"><label>تێبینی</label><input type="text" id="tebini"></div>
+            <div class="input-group">
+                <label>تێبینی</label>
+                <input type="text" id="tebini">
+            </div>
         </div>
 
         <button type="submit" class="btn" id="submitBtn">ناردن بۆ گووگڵ شیت</button>
@@ -180,7 +191,7 @@
         status.innerText = "لە حاڵەتی ناردندایە...";
         status.style.color = "#d97706";
 
-        const currentZMahawila = document.getElementById('zMahawila').value;
+        const currentZMahawila = document.getElementById('zMahawila').value.trim();
 
         const payload = {
             sheetName: document.getElementById('sheetName').value || "Sheet1",
@@ -211,7 +222,7 @@
             status.innerText = "✓ بە سەرکەوتوویی تۆمارکرا!";
             status.style.color = "#059669";
             
-            // خودکارکردنی زیلادبوونی ژمارەی محاویلە (ئەگەر ژمارە درابێت، ١ی دەچێتەسەر)
+            // خودکارکردنی زیادبوونی ژمارەی محاویلە (تەنها ئەگەر ژمارەی پەتی بێت +1 دەکرێت)
             if (currentZMahawila !== "" && !isNaN(currentZMahawila)) {
                 document.getElementById('zMahawila').value = parseInt(currentZMahawila, 10) + 1;
             } else {
